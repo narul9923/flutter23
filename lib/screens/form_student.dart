@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sekolahku/basic/form_label.dart';
 import 'package:sekolahku/domain/student.dart';
+import 'package:sekolahku/screens/home.dart';
 import 'package:sekolahku/service/app_service.dart';
 import 'package:sekolahku/util/capitalize.dart';
 import 'package:sekolahku/widgets/check_box.dart';
@@ -59,7 +60,9 @@ class _FormStudentState extends State<FormStudent> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text(widget.title),
       ),
@@ -239,7 +242,14 @@ class _FormStudentState extends State<FormStudent> {
             _student.hobbies = _hobbies;
             _student.address = _address;
             print(_student);
-            AppService.studentService.createStudent(_student);
+            AppService.studentService
+              .createStudent(_student)
+              .then((int idx) => Navigator.pushAndRemoveUntil(
+                context, 
+                MaterialPageRoute(builder: (context) => Home()),
+                (route) => false,
+              )
+            );
           }
         }
       ),
